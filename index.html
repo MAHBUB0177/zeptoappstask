@@ -41,6 +41,48 @@
         </nav>
     </header>
 
+
+
+    <div class="p-4">
+      <!-- Flex container for search bar, dropdown, and button -->
+      <div class="flex flex-col md:flex-row items-center mb-4">
+          <!-- Search Bar -->
+          <input 
+              type="text" 
+              id="searchInput" 
+              class="w-full md:w-1/2 p-2 border rounded mb-2 md:mb-0 md:mr-2" 
+              placeholder="Search books by title..." 
+              oninput="filterBooks()"
+          />
+          
+          <!-- Dropdown for genre selection -->
+          <select id="genreSelect" class="w-full md:w-1/4 p-2 border rounded mb-2 md:mb-0 md:mr-2">
+              <option value="">Select Genre</option>
+          </select>
+  
+          <!-- Search Button -->
+          <button 
+              class="bg-blue-500 text-white px-4 py-2 rounded" 
+              onclick="filterBooks()"
+          >
+              Search
+          </button>
+
+          <button 
+          class="bg-red-500 text-white px-4 py-2 mx-2 rounded" 
+          onclick="clearFilters()"
+      >
+          Clear
+      </button>
+      </div>
+  
+      <!-- Container for filtered book results -->
+      <div id="numberList" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+  </div>
+  
+
+
+    <!-- //loader for api response -->
     <div id="loader" class="text-center py-8">
         <div class="flex items-center justify-center h-screen">
             <div class="relative">
@@ -50,11 +92,17 @@
             </div>
         </div>
     </div>
+
+ 
+    
     
 
-    <div class=" h-auto flex items-start px-20 py-10">
-        <div id="numberList" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3"></div>
-    </div>
+    <!-- <div class=" h-auto flex items-start px-20 py-10">
+        <div id="numberList" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+    </div> -->
+
+    
+    
 
 
 
