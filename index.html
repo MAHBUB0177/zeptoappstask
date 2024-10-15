@@ -43,9 +43,9 @@
 
 
 
-    <div class="p-4">
-      <!-- Flex container for search bar, dropdown, and button -->
-      <div class="flex flex-col md:flex-row gap-3 items-center mb-4">
+  <div class="p-4">
+      <!-- Search and filters -->
+      <div class="flex flex-col md:flex-row items-center mb-4">
           <!-- Search Bar -->
           <input 
               type="text" 
@@ -67,22 +67,27 @@
           >
               Search
           </button>
-
+  
+          <!-- Clear Button -->
           <button 
-          class="bg-red-500 text-white px-4 py-2 mx-2 rounded" 
-          onclick="clearFilters()"
-      >
-          Clear
-      </button>
+              class="bg-red-500 text-white px-4 py-2 mx-2 rounded" 
+              onclick="clearFilters()"
+          >
+              Clear
+          </button>
       </div>
   
-      <!-- Container for filtered book results -->
-      <div id="numberList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"></div>
+      <!-- Container for displaying books -->
+      <div id="numberList" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+      
+      <!-- Pagination Buttons -->
+      <div id="paginationContainer" class="flex justify-center mt-4"></div>
   </div>
+  
   
 
 
-    <!-- //loader for api response -->
+    <!-- //loader for api response --> 
     <div id="loader" class="text-center py-8">
         <div class="flex items-center justify-center h-screen">
             <div class="relative">
