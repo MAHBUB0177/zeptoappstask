@@ -1,5 +1,5 @@
-let allBooks = []; // Global variable to store all fetched books
-let Genre = []; // Array to store unique genres
+let allBooks = []; 
+let Genre = []; 
 
 async function fetchBooks() {
     try {
@@ -7,19 +7,17 @@ async function fetchBooks() {
         loader.style.display = 'block'; // Show loader before fetch starts
 
         const response = await fetch('https://gutendex.com/books/');
-        console.log(response, 'response++++++');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-        loader.style.display = 'none'; // Hide the loader after the data is fetched
+        loader.style.display = 'none'; // Hide the loader 
         
-        allBooks = data.results; // Store the fetched results in the global variable
+        allBooks = data.results; 
         displayBooks(allBooks); // Initially display all books
 
         const allSubjects = allBooks.flatMap(book => book.subjects);
-        // Step 2: Create a Set to get unique subjects
         Genre = [...new Set(allSubjects)];
 
         // Populate the genre dropdown
@@ -40,35 +38,28 @@ function filterBooks() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     const selectedGenre = document.getElementById('genreSelect').value; // Get the selected genre
 
-    console.log(searchInput, 'searchInput++++++++++');
-    console.log(selectedGenre, 'selectedGenre++++++++++');
-
-    // Filter books based on title and selected genre
+    // Filter title and selected genre
     const filteredBooks = allBooks.filter(book => {
         const matchesTitle = book.title.toLowerCase().includes(searchInput);
-        const matchesGenre = selectedGenre ? book.subjects.includes(selectedGenre) : true; // Check if the book's genre matches
+        const matchesGenre = selectedGenre ? book.subjects.includes(selectedGenre) : true; 
 
-        return matchesTitle && matchesGenre; // Return true if both conditions are met
+        return matchesTitle && matchesGenre; // Return true if both conditions are true
     });
-    
-    displayBooks(filteredBooks); // Display filtered books
+    displayBooks(filteredBooks); 
 }
 
 function clearFilters() {
-    // Reset the search input
     document.getElementById('searchInput').value = '';
-    // Reset the genre selection
     document.getElementById('genreSelect').value = '';
-    // Call filterBooks to display all books
     displayBooks(allBooks); // Display all books
 }
 
-// Function to display books or handle empty data
+
 function displayBooks(books) {
     const numberList = document.getElementById('numberList'); 
 
     if (!books || books.length === 0) {
-        numberList.innerHTML = '<p class="text-gray-500">No books found.</p>'; // Display message if no books found
+        numberList.innerHTML = '<p class="text-gray-500">No books found.</p>'; 
         return;
     }
 
@@ -77,7 +68,7 @@ function displayBooks(books) {
 
         return `
         <div class="bg-white m-2 rounded-lg overflow-hidden shadow-2xl">
-          <img class="h-48 w-full object-cover" src="${book.formats['image/jpeg'] || 'https://via.placeholder.com/150'}" alt="Book Image" />
+          <img class="h-48 w-full object-fit" src="${book.formats['image/jpeg'] || 'https://via.placeholder.com/150'}" alt="Book Image" />
           <div class="pt-2 px-2">
             <p class='text-left'>ID: ${book.id}</p>
             <p class='text-left'>${truncatedTitle}</p>
@@ -87,9 +78,9 @@ function displayBooks(books) {
         </div>`;
     }).join('');
 
-    numberList.innerHTML = bookElements; // Set the innerHTML of the container to the generated HTML
+    numberList.innerHTML = bookElements; 
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchBooks(); // Call the fetchBooks function to load the data
+    fetchBooks();
 });
