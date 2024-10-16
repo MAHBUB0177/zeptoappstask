@@ -19,11 +19,6 @@ function updateFavoriteCount() {
 
 function displayBooks(books) {
     const numberList = document.getElementById('numberList');
-    if (!books || books.length === 0) {
-        numberList.innerHTML = '<p class="text-gray-500">No books found.</p>';
-        return;
-    }
-   
     // Generate the HTML for each book
     const bookElements = books.map((book, index) => {
         const truncatedTitle = book.title.length > 100 ? book.title.slice(0, 70) + '...' : book.title;
