@@ -15,6 +15,16 @@ async function fetchBooks(url = `https://gutendex.com/books/?page=1`) {
         const numberList = document.getElementById('numberList');
         const pagination = document.getElementById('paginationContainer'); 
 
+
+        //desabled  search properties
+        const searchInput = document.getElementById('searchInput');
+        const typeSelect = document.getElementById('genreSelect');
+        const clearFilter = document.getElementById('clearFilter');
+        
+        searchInput.disabled = true;
+        typeSelect.disabled = true;
+        clearFilter.disabled = true;
+
         // Clear previous book data and show loader
         numberList.innerHTML = ''; // Clear previous content
         loader.style.display = 'block';
@@ -22,7 +32,12 @@ async function fetchBooks(url = `https://gutendex.com/books/?page=1`) {
 
         const response = await fetch(url); // Fetch data from API
         const data = await response.json();
-        
+        allBooks = data.results;
+        nextPageUrl = data.next; // URL for the next page
+        previousPageUrl = data.previous; // URL for the previous page
+        totalPages = Math.ceil(data.count / 32); // Assuming 32 items per page
+        displayBooks(allBooks);
+
         loader.style.display = 'none'; 
         pagination.style.display = 'block';// Hide loader after data is fetched
 
@@ -30,11 +45,12 @@ async function fetchBooks(url = `https://gutendex.com/books/?page=1`) {
         const urlParams = new URLSearchParams(url.split('?')[1]);
         currentPage = parseInt(urlParams.get('page')) || 1;
         
-        allBooks = data.results;
-        nextPageUrl = data.next; // URL for the next page
-        previousPageUrl = data.previous; // URL for the previous page
-        totalPages = Math.ceil(data.count / 32); // Assuming 32 items per page
-        displayBooks(allBooks);
+        //fetch data then enale serch properties
+        searchInput.disabled = false;
+        typeSelect.disabled = false;
+        clearFilter.disabled = false;
+       
+       
 
         const allSubjects = allBooks.flatMap(book => book.subjects);
         Genre = [...new Set(allSubjects)];
@@ -50,7 +66,7 @@ async function fetchBooks(url = `https://gutendex.com/books/?page=1`) {
         updatePaginationButtons(); // Update pagination buttons based on the current state
     } catch (error) {
         console.error('Error fetching data:', error);
-        document.getElementById('numberList').innerHTML = '<p class="text-red-600">Error loading books. Please try again later.</p>';
+        // document.getElementById('numberList').innerHTML = '<p class="text-red-600">Error loading books. Please try again later.</p>';
     }
 }
 
