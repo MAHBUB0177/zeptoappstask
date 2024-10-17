@@ -55,17 +55,17 @@ function displayBooks(books) {
            <a href="bookDetails.html" >  
         <img class="h-48 w-full object-fit" src="${book.formats['image/jpeg'] || 'https://via.placeholder.com/150'}" alt="Book Image" />
         </a>
-          <div class="pt-2 px-2">
+          <div class="p-2">
             <div class='flex justify-between'>
-              <p class='text-left'>ID: ${book.id}</p>
+              <p class='text-left text-sm'>ID: ${book.id}</p>
               
-              <p class='text-left text-red-500 underline cursor-pointer' id="heart-${index}">
-                Remove
+              <p class='text-left text-red-500  underline cursor-pointer' id="heart-${index}">
+               <i class="fas fa-trash" aria-hidden="true"></i>
               </p>
             </div>
-            <p class='text-left'>${truncatedTitle}</p>
-            <p class='text-left'>${book.authors[0]?.name}</p>
-            <p class='text-left'>Genre</p>
+            <p class='text-left text-sm'>${truncatedTitle}</p>
+            <p class='text-left text-sm'>${book.authors[0]?.name}</p>
+            <p class='text-left text-sm'>${book?.subjects[0]}</p>
           </div>
         </div>`;
     }).join('');
