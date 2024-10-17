@@ -72,6 +72,7 @@
   
           <!-- Search Button -->
           <button 
+          id="searchid"
               class="bg-blue-500 text-white px-4 py-2 rounded" 
               onclick="filterBooks()"
           >
@@ -87,18 +88,20 @@
               Clear
           </button>
       </div>
-  
+      
       <!-- Container for displaying books -->
-       <div class="flex justify-center items-center">
+       
+        
         <div id="numberList" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 "></div>
-
-       </div>
+        <div id="emptyList" class="flex justify-center items-center"></div>
       
       <!-- Pagination Buttons -->
        <div class="flex justify-center items-center mt-4">
         <div id="paginationContainer" ></div>
        </div>
   </div>
+
+ 
   
   
 

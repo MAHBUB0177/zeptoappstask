@@ -1,34 +1,47 @@
 
 
 function updateFavoriteCount() {
-    const favoriteBooks = JSON.parse(localStorage.getItem('favoriteBooks')) || [];
+
+    let favoriteBooks = [];
+    try {
+        const storedFavorites = localStorage.getItem('favoriteBooks');
+        favoriteBooks = storedFavorites ? JSON.parse(storedFavorites) : [];
+    } catch (error) {
+        console.error('Error parsing favoriteBooks from localStorage:', error);
+        favoriteBooks = []; 
+    }
     const favoriteCountElement = document.getElementById('favorite-count');
     displayBooks(favoriteBooks)
     
     // Update the badge with the number of favorite books
     const count = favoriteBooks.length;
     favoriteCountElement.textContent = count;
+    
 
-    // Show or hide the badge based on whether there are any favorites
+    // Show or hide the badge 
     if (count > 0) {
         favoriteCountElement.classList.remove('hidden'); // Show the badge
     } else {
+        document.getElementById('clearList').style.display ='none'
         favoriteCountElement.classList.add('hidden'); // Hide the badge
     }
 }
 
 function displayBooks(books) {
     const numberList = document.getElementById('numberList');
-    
-
-      // If no books are found
-      if (!books || books.length === 0) {
-        numberList.innerHTML = `
-            <div class="flex justify-center items-center h-screen w-full">
-                <p class="text-gray-500 text-xl">No books found.</p>
+    const emptyList = document.getElementById('emptyList');
+    // If no books are found
+    if (!books || books.length === 0) {
+        emptyList.innerHTML = `
+            <div class="flex justify-center items-center h-screen  pl-[120px]">
+                <p class="text-gray-500 text-3xl text-center ">No books found.</p>
             </div>
         `;
+        numberList.innerHTML = ''
         return;
+    }
+    else{
+        emptyList.innerHTML = '';  
     }
     
     // Generate the HTML for each book
@@ -57,12 +70,10 @@ function displayBooks(books) {
         </div>`;
     }).join('');
 
-    numberList.innerHTML = bookElements; // Render the books in the grid
+    numberList.innerHTML = bookElements; 
 
     books.forEach((book, index) => {
-        const bookDetails = document.getElementById(`book-${index}`);
         const heartIcon = document.getElementById(`heart-${index}`);
-
         heartIcon.addEventListener('click', (event) => {
             event.stopPropagation(); // Prevent triggering the bookDetails click event
             toggleBookInLocalStorage(book, heartIcon);
@@ -70,6 +81,7 @@ function displayBooks(books) {
         });
 
         // Book details listener
+        const bookDetails = document.getElementById(`book-${index}`);
         bookDetails.addEventListener('click', () => {
             localStorage.setItem('bookDetails', JSON.stringify(book));
            
@@ -80,7 +92,14 @@ function displayBooks(books) {
 }
 
 function toggleBookInLocalStorage(book, heartIcon) {
-    let favoriteBooks = JSON.parse(localStorage.getItem('favoriteBooks')) || [];
+    let favoriteBooks = [];
+    try {
+        const storedFavorites = localStorage.getItem('favoriteBooks');
+        favoriteBooks = storedFavorites ? JSON.parse(storedFavorites) : [];
+    } catch (error) {
+        console.error('Error parsing favoriteBooks from localStorage:', error);
+        favoriteBooks = []; 
+    }
     // Check if the book is already in favorites
     const bookIndex = favoriteBooks.findIndex(favBook => favBook.id === book.id);
     
@@ -103,4 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function removeWishist (){
     localStorage.setItem('favoriteBooks',[])
     displayBooks([])
+    updateFavoriteCount()
+    
 }

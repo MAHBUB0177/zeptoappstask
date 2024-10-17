@@ -22,7 +22,7 @@ function displayBookDetails(book) {
              
             </div>
             <p class='text-left'>${book.title}</p>
-            <p class='text-left'>${book.authors[0]?.name} (${
+            <p class='text-left font-semibold'>${book.authors[0]?.name} (${
     book.authors[0]?.birth_year
   }-${book.authors[0]?.death_year})</p>
             <p class='text-left underline font-semibold'>Genre :</p>

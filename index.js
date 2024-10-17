@@ -5,13 +5,9 @@ let nextPageUrl = null; // URL for the next page
 let previousPageUrl = null; // URL for the previous page
 
 
-
-
-
-
 async function fetchBooks(url = `https://gutendex.com/books/?page=1`) {
     try {
-        const loader = document.getElementById('loader'); // Show loader while fetching data
+        const loader = document.getElementById('loader'); 
         const numberList = document.getElementById('numberList');
         const pagination = document.getElementById('paginationContainer'); 
 
@@ -20,28 +16,30 @@ async function fetchBooks(url = `https://gutendex.com/books/?page=1`) {
         const searchInput = document.getElementById('searchInput');
         const typeSelect = document.getElementById('genreSelect');
         const clearFilter = document.getElementById('clearFilter');
+        const searchid = document.getElementById('searchid');
         
         searchInput.disabled = true;
         typeSelect.disabled = true;
         clearFilter.disabled = true;
+        searchid.disabled = true;
 
         // Clear previous book data and show loader
-        numberList.innerHTML = ''; // Clear previous content
+        numberList.innerHTML = ''; 
         loader.style.display = 'block';
         pagination.style.display = 'none';
 
-        const response = await fetch(url); // Fetch data from API
+        const response = await fetch(url); 
         const data = await response.json();
         allBooks = data.results;
-        nextPageUrl = data.next; // URL for the next page
-        previousPageUrl = data.previous; // URL for the previous page
-        totalPages = Math.ceil(data.count / 32); // Assuming 32 items per page
-        displayBooks(allBooks);
+        nextPageUrl = data.next; 
+        previousPageUrl = data.previous; 
+        totalPages = Math.ceil(data.count / 32); 
+        displayBooks(allBooks);//initialy show all books 
 
         loader.style.display = 'none'; 
-        pagination.style.display = 'block';// Hide loader after data is fetched
+        pagination.style.display = 'block';
 
-        // Extract the current page from the URL or default to 1
+        // Extract the current page from the URL 
         const urlParams = new URLSearchParams(url.split('?')[1]);
         currentPage = parseInt(urlParams.get('page')) || 1;
         
@@ -49,13 +47,14 @@ async function fetchBooks(url = `https://gutendex.com/books/?page=1`) {
         searchInput.disabled = false;
         typeSelect.disabled = false;
         clearFilter.disabled = false;
+        searchid.disabled = false;
        
        
 
         const allSubjects = allBooks.flatMap(book => book.subjects);
         Genre = [...new Set(allSubjects)];
 
-        // Populate the genre dropdown
+        //  the genre dropdown
         const genreSelect = document.getElementById('genreSelect');
         Genre.forEach(genre => {
             const option = document.createElement('option');
@@ -66,29 +65,52 @@ async function fetchBooks(url = `https://gutendex.com/books/?page=1`) {
         updatePaginationButtons(); // Update pagination buttons based on the current state
     } catch (error) {
         console.error('Error fetching data:', error);
-        // document.getElementById('numberList').innerHTML = '<p class="text-red-600">Error loading books. Please try again later.</p>';
+        loader.style.display = 'none';
+        document.getElementById('emptyList').innerHTML = '<div class="text-red-600 h-screen flex justify-center items-center mx-auto text-center">Error loading books. Please try again later.</div>';
     }
 }
 
 
 
 
-// Function to toggle book in local storage
 
+
+
+// Function to toggle book in local storage
 function displayBooks(books) {
     const numberList = document.getElementById('numberList');
+    const emptyList = document.getElementById('emptyList');
+    // If no books are found
     if (!books || books.length === 0) {
-        numberList.innerHTML = '<div class="flex justify-center items-center  w-full text-gray-500">No books found.</div>';
+        emptyList.innerHTML = `
+            <div class="flex justify-center items-center h-screen ">
+                <p class="text-gray-500 text-3xl text-center ">No books found.</p>
+            </div>
+        `;
+        numberList.innerHTML=''
         return;
     }
+    else{
+        emptyList.innerHTML = '';  
+    }
 
-    let favoriteBooks = JSON.parse(localStorage.getItem('favoriteBooks')) || [];
+
+    let favoriteBooks = [];
+    try {
+        const storedFavorites = localStorage.getItem('favoriteBooks');
+        favoriteBooks = storedFavorites ? JSON.parse(storedFavorites) : [];
+    } catch (error) {
+        console.error('Error parsing favoriteBooks from localStorage:', error);
+        favoriteBooks = [];
+    }
+ 
     
     // Generate the HTML for each book
     const bookElements = books.map((book, index) => {
         const truncatedTitle = book.title.length > 100 ? book.title.slice(0, 70) + '...' : book.title;
         const isFavorite = favoriteBooks.some(favBook => favBook.id === book.id);
-        const heartIconClass = isFavorite ? 'fas' : 'far'; // 'fas' for filled heart, 'far' for outline heart
+        const heartIconClass = isFavorite ? 'fas' : 'far';
+      
 
         return `
         <div class="bg-white m-2 rounded-lg overflow-hidden shadow-2xl" id="book-${index}">
@@ -99,7 +121,7 @@ function displayBooks(books) {
             <div class='flex justify-between'>
               <p class='text-left'>ID: ${book.id}</p>
               <p class='text-left text-red-500'>
-                <i class="${heartIconClass} fa-heart cursor-pointer" id="heart-${index}"></i>
+              <i class="${heartIconClass} fa-heart cursor-pointer" id="heart-${index}"></i>
               </p>
             </div>
             <p class='text-left'>${truncatedTitle}</p>
@@ -109,14 +131,14 @@ function displayBooks(books) {
         </div>`;
     }).join('');
 
-    numberList.innerHTML = bookElements; // Render the books in the grid
+    numberList.innerHTML = bookElements; 
 
     books.forEach((book, index) => {
         const bookDetails = document.getElementById(`book-${index}`);
         const heartIcon = document.getElementById(`heart-${index}`);
 
         heartIcon.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent triggering the bookDetails click event
+            event.stopPropagation(); 
             toggleBookInLocalStorage(book, heartIcon);
             updateFavoriteCount();
         });
@@ -124,48 +146,60 @@ function displayBooks(books) {
         // Book details listener
         bookDetails.addEventListener('click', () => {
             localStorage.setItem('bookDetails', JSON.stringify(book));
-            // Optionally, redirect to a book details page or update the UI
-            // window.location.href = '/book-details.html'; // Uncomment this if you have a separate book details page
         });
     });
 }
 
 function toggleBookInLocalStorage(book, heartIcon) {
-    let favoriteBooks = JSON.parse(localStorage.getItem('favoriteBooks')) || [];
+    
+    let favoriteBooks = [];
+    try {
+        const storedFavorites = localStorage.getItem('favoriteBooks');
+        favoriteBooks = storedFavorites ? JSON.parse(storedFavorites) : [];
+    } catch (error) {
+        console.error('Error parsing favoriteBooks from localStorage:', error);
+        favoriteBooks = []; 
+    }
+
     // Check if the book is already in favorites
     const bookIndex = favoriteBooks.findIndex(favBook => favBook.id === book.id);
-    
     if (bookIndex !== -1) {
         // Remove the book from favorites
         favoriteBooks.splice(bookIndex, 1);
         localStorage.setItem('favoriteBooks', JSON.stringify(favoriteBooks));
-        heartIcon.classList.remove('fas'); // Remove filled heart
-        heartIcon.classList.add('far'); // Set to outline heart
+        heartIcon.classList.remove('fas'); 
+        heartIcon.classList.add('far'); 
     } else {
         // Add the book to favorites
         favoriteBooks.push(book);
         localStorage.setItem('favoriteBooks', JSON.stringify(favoriteBooks));
-        heartIcon.classList.remove('far'); // Remove outline heart
-        heartIcon.classList.add('fas'); // Set to filled heart
+        heartIcon.classList.remove('far'); 
+        heartIcon.classList.add('fas'); 
     }
 
-    localStorage.setItem('bookDetails', JSON.stringify(book));
-
-
-
+    // Update bookDetails
+    // localStorage.setItem('bookDetails', JSON.stringify(book));
 }
 
 
    // Function to update the favorite count badge
    function updateFavoriteCount() {
-    const favoriteBooks = JSON.parse(localStorage.getItem('favoriteBooks')) || [];
+
+    let favoriteBooks = [];
+    try {
+        const storedFavorites = localStorage.getItem('favoriteBooks');
+        favoriteBooks = storedFavorites ? JSON.parse(storedFavorites) : [];
+    } catch (error) {
+        console.error('Error parsing favoriteBooks from localStorage:', error);
+        favoriteBooks = []; 
+    }
     const favoriteCountElement = document.getElementById('favorite-count');
     
     // Update the badge with the number of favorite books
     const count = favoriteBooks.length;
     favoriteCountElement.textContent = count;
 
-    // Show or hide the badge based on whether there are any favorites
+    // Show or hide the badge 
     if (count > 0) {
         favoriteCountElement.classList.remove('hidden'); // Show the badge
     } else {
@@ -210,7 +244,7 @@ function updatePaginationButtons() {
     const prevButton = document.createElement('button');
     prevButton.textContent = 'Previous';
     prevButton.className = 'bg-gray-500 text-white px-4 py-2 rounded mr-2';
-    prevButton.disabled = currentPage === 1; // Disable if on the first page
+    prevButton.disabled = currentPage === 1; 
     prevButton.onclick = () => {
         if (currentPage > 1) fetchBooks(`https://gutendex.com/books/?page=${currentPage - 1}`);
     };
@@ -246,6 +280,6 @@ function updatePaginationButtons() {
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
-    fetchBooks(); // Fetch the first page of books on page load
+    fetchBooks(); 
     updateFavoriteCount();
 });
