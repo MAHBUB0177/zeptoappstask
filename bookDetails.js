@@ -7,7 +7,7 @@ function displayBookDetails(book) {
   const numberList = document.getElementById("numberList");
 
   const bookElement = `
-    <div class="bg-white m-2 rounded-lg overflow-hidden shadow-2xl flex justify-start gap-4  p-20">
+    <div class="bg-white m-2 rounded-lg overflow-hidden shadow-2xl flex flex-col md:flex-row justify-start gap-4  p-20">
 <div>
  <img class="h-48 w-full md:w-[400px] object-cover" src="${
    book.formats["image/jpeg"] || "https://via.placeholder.com/150"

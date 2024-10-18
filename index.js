@@ -181,10 +181,7 @@ function toggleBookInLocalStorage(book, heartIcon) {
     // localStorage.setItem('bookDetails', JSON.stringify(book));
 }
 
-
-   // Function to update the favorite count badge
-   function updateFavoriteCount() {
-
+function updateFavoriteCount() {
     let favoriteBooks = [];
     try {
         const storedFavorites = localStorage.getItem('favoriteBooks');
@@ -193,19 +190,24 @@ function toggleBookInLocalStorage(book, heartIcon) {
         console.error('Error parsing favoriteBooks from localStorage:', error);
         favoriteBooks = []; 
     }
-    const favoriteCountElement = document.getElementById('favorite-count');
-    
-    // Update the badge with the number of favorite books
-    const count = favoriteBooks.length;
-    favoriteCountElement.textContent = count;
 
-    // Show or hide the badge 
-    if (count > 0) {
-        favoriteCountElement.classList.remove('hidden'); // Show the badge
-    } else {
-        favoriteCountElement.classList.add('hidden'); // Hide the badge
-    }
+    const favoriteCountElements = document.querySelectorAll('#favorite-count');
+    const count = favoriteBooks.length;
+
+    favoriteCountElements.forEach(favoriteCountElement => {
+        if (favoriteCountElement) {
+            favoriteCountElement.textContent = count;
+
+            // Show or hide the badge
+            if (count > 0) {
+                favoriteCountElement.classList.remove('hidden'); 
+            } else {
+                favoriteCountElement.classList.add('hidden'); 
+            }
+        }
+    });
 }
+
 
 // Function to filter books by search term and genre
 function filterBooks() {
@@ -243,7 +245,7 @@ function updatePaginationButtons() {
     // Previous button
     const prevButton = document.createElement('button');
     prevButton.textContent = 'Previous';
-    prevButton.className = 'bg-gray-500 text-white px-4 py-2 rounded mr-2';
+    prevButton.className = 'bg-gray-500 text-white px-2 py-1 rounded mr-1';
     prevButton.disabled = currentPage === 1; 
     prevButton.onclick = () => {
         if (currentPage > 1) fetchBooks(`https://gutendex.com/books/?page=${currentPage - 1}`);
@@ -262,7 +264,7 @@ function updatePaginationButtons() {
     for (let i = startPage; i <= endPage; i++) {
         const pageButton = document.createElement('button');
         pageButton.textContent = i;
-        pageButton.className = `px-4 py-2 rounded mx-1 ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`;
+        pageButton.className = `px-2 py-1 rounded mx-1 ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`;
         pageButton.onclick = () => fetchBooks(`https://gutendex.com/books/?page=${i}`);
         paginationContainer.appendChild(pageButton);
     }
@@ -270,7 +272,7 @@ function updatePaginationButtons() {
     // Next button
     const nextButton = document.createElement('button');
     nextButton.textContent = 'Next';
-    nextButton.className = 'bg-gray-500 text-white px-4 py-2 rounded';
+    nextButton.className = 'bg-gray-500 text-white px-2 py-1 rounded';
     nextButton.disabled = currentPage === totalPages; // Disable if on the last page
     nextButton.onclick = () => {
         if (currentPage < totalPages) fetchBooks(`https://gutendex.com/books/?page=${currentPage + 1}`);

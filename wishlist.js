@@ -1,7 +1,5 @@
 
-
 function updateFavoriteCount() {
-
     let favoriteBooks = [];
     try {
         const storedFavorites = localStorage.getItem('favoriteBooks');
@@ -10,22 +8,29 @@ function updateFavoriteCount() {
         console.error('Error parsing favoriteBooks from localStorage:', error);
         favoriteBooks = []; 
     }
-    const favoriteCountElement = document.getElementById('favorite-count');
-    displayBooks(favoriteBooks)
-    
-    // Update the badge with the number of favorite books
-    const count = favoriteBooks.length;
-    favoriteCountElement.textContent = count;
-    
 
-    // Show or hide the badge 
-    if (count > 0) {
-        favoriteCountElement.classList.remove('hidden'); // Show the badge
-    } else {
-        document.getElementById('clearList').style.display ='none'
-        favoriteCountElement.classList.add('hidden'); // Hide the badge
-    }
+displayBooks(favoriteBooks)
+
+
+    const favoriteCountElements = document.querySelectorAll('#favorite-count');
+   let clearButton= document.getElementById('clearList')
+    const count = favoriteBooks.length;
+
+    favoriteCountElements.forEach(favoriteCountElement => {
+        if (favoriteCountElement) {
+            favoriteCountElement.textContent = count;
+
+            // Show or hide the badge
+            if (count > 0) {
+                favoriteCountElement.classList.remove('hidden'); 
+            } else {
+                favoriteCountElement.classList.add('hidden'); 
+                clearButton.style.display='none'
+            }
+        }
+    });
 }
+
 
 function displayBooks(books) {
     const numberList = document.getElementById('numberList');

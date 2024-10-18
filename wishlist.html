@@ -12,43 +12,81 @@
     <title>Document</title>
 </head>
 <body>
-    <header class="sticky w-full inset-0 z-50 border-b border-slate-100 bg-white">
-        <nav class="mx-auto flex  gap-8 px-6 duration-200 ease-in-out lg:px-12 py-4">
-            <div class="relative flex items-center">
-                <div class="pt-1.5 font-dm  font-medium text-red-500 text-xl ">
-                    <a href="/">Zepto</a>
-                  </div>
-            </div>
-            <ul class="hidden items-center justify-center gap-6 md:flex">
-                <li class="pt-1.5 font-dm text-sm font-medium text-slate-700">
-                    <a href="#">Pricing</a>
-                </li>
-                <li class="pt-1.5 font-dm text-sm font-medium text-slate-700">
-                    <a href="#">Blog</a>
-                </li>
-                <li class="pt-1.5 font-dm text-sm font-medium text-slate-700">
-                    <a href="#">Docs</a>
-                </li>
-            </ul>
-            <div class="flex-grow"></div>
-            <div class="hidden items-center justify-center gap-6 md:flex">
-            <a href="wishlist.html" class="relative font-dm text-sm font-medium text-red-500">
-              <i class="fas fa-heart cursor-pointer text-xl" ></i>
-              <span id="favorite-count" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center hidden">0</span>
-          </a>
-              <a href="#" class="font-dm text-sm font-medium text-slate-700">Sign in</a>
-                <a href="#"
-                    class="rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]">Sign
-                    up 
-                </a>
-            </div>
-            <div class="relative flex items-center justify-center md:hidden">
-                <button type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-auto text-slate-900"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg>
-                </button>
-            </div>
-        </nav>
-    </header>
+  <header class="sticky w-full inset-0 z-50 border-b border-gray-200 bg-white dark:bg-gray-900">
+    <nav class="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-2.5 lg:px-12 gap-8">
+
+      <div class="relative flex items-center">
+        <div class="pt-1.5 font-dm  font-medium text-red-500 text-xl ">
+          <a href="/">Zepto</a>
+        </div>
+      </div>
+
+      <ul class="hidden items-center justify-center gap-6 md:flex">
+        <li class="pt-1.5 font-dm text-sm font-medium text-slate-700">
+          <a href="#">Home</a>
+        </li>
+        <li class="pt-1.5 font-dm text-sm font-medium text-slate-700">
+          <a href="#">About</a>
+        </li>
+        <li class="pt-1.5 font-dm text-sm font-medium text-slate-700">
+          <a href="#">Contact</a>
+        </li>
+      </ul>
+
+      <div class="flex-grow"></div>
+      <div class="hidden items-center justify-center gap-6 md:flex">
+        <a href="wishlist.html" class="relative font-dm text-sm font-medium text-red-500">
+          <i class="fas fa-heart cursor-pointer text-xl"></i>
+          <span id="favorite-count"
+            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center hidden">0</span>
+        </a>
+        <a href="#" class="font-dm text-sm font-medium text-slate-700">Sign in</a>
+        <a href="#"
+          class="rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]">Sign
+          up
+        </a>
+      </div>
+
+
+      <div class="flex justify-start gap-1">
+        <a href="wishlist.html" class="relative font-dm text-sm font-medium text-red-500 pt-2 md:hidden">
+          <i class="fas fa-heart cursor-pointer text-xl"></i>
+          <span id="favorite-count"
+            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center hidden">0</span>
+        </a>
+        <button data-collapse-toggle="mobile-menu-2" type="button"
+          class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          aria-controls="mobile-menu-2" aria-expanded="true">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <div class="md:hidden" id="mobile-menu-2">
+      <ul class="flex flex-col items-center mt-4 space-y-2 font-medium">
+        <li> <a href="#" class="font-dm text-sm font-medium text-slate-700">Sign in</a></li>
+        <li><a href="#"
+            class="rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]">Sign
+            up
+          </a></li>
+        <li><a href="#" class="text-sm font-medium text-gray-700 dark:text-gray-400">Home</a></li>
+        <li><a href="#" class="text-sm font-medium text-gray-700 dark:text-gray-400">About</a></li>
+        <li><a href="#" class="text-sm font-medium text-gray-700 dark:text-gray-400">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
     <div class="p-4">
       <div class="flex justify-end ">
         <button 
